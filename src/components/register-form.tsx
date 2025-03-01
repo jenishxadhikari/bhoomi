@@ -17,6 +17,7 @@ import { Input } from '@/components/ui/input'
 
 const formSchema = z
   .object({
+    fullName: z.string().min(1, 'Full Name is required'),
     email: z.string().email({ message: 'Email must be valid' }),
     password: z
       .string()
@@ -35,6 +36,7 @@ export function RegisterForm() {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
+      fullName: '',
       email: '',
       password: '',
       confirmPassword: '',
@@ -51,6 +53,19 @@ export function RegisterForm() {
         onSubmit={form.handleSubmit(onSubmit)}
         className="flex flex-col gap-6"
       >
+        <FormField
+          control={form.control}
+          name="fullName"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Full Name</FormLabel>
+              <FormControl>
+                <Input placeholder="Eg. Jenish Adhikari" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
         <FormField
           control={form.control}
           name="email"
